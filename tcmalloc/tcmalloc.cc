@@ -56,6 +56,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/sdt.h>
 
 #include <algorithm>
 #include <cstddef>
@@ -1162,6 +1163,7 @@ using tcmalloc::tcmalloc_internal::MultiplyOverflow;
 
 extern "C" ABSL_CACHELINE_ALIGNED void* TCMallocInternalMalloc(
     size_t size) noexcept {
+  DTRACE_PROBE1(tcmalloc, internal_malloc, size);
   return fast_alloc(size, MallocPolicy());
 }
 
